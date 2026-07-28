@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<!--
+  Key screen: Calculator desktop
+  Spine sections:
+    EXPERIENCE.md — Foundation, Information Architecture, Component Patterns,
+                    State Patterns (initial + valid), Interaction Primitives,
+                    Key Flows (Flow 1 — Basic successful calculation)
+    DESIGN.md — All sections (Brand & Style, Colors, Typography, Layout, Shapes, Components)
+-->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Tope de Reintegro</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #FAFAFA;
+    font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+    color: #1E293B;
+    display: flex;
+    justify-content: center;
+    padding: 48px 16px;
+    min-height: 100vh;
+  }
+
+  .page { width: 100%; max-width: 640px; }
+
+  /* Hero */
+  .hero { margin-bottom: 48px; }
+  .hero h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #1E293B;
+    margin-bottom: 8px;
+  }
+  .hero p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #64748B;
+  }
+
+  /* Main card */
+  .card-main {
+    background: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    padding: 32px;
+    margin-bottom: 48px;
+  }
+
+  /* Form group */
+  .form-group { margin-bottom: 24px; }
+  .form-group:last-of-type { margin-bottom: 16px; }
+  .form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    color: #1E293B;
+    margin-bottom: 6px;
+  }
+  .form-group input {
+    display: block;
+    width: 100%;
+    font-family: 'Nunito', system-ui, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #1E293B;
+    background: #FAFAFA;
+    border: 2px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 16px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .form-group input:focus {
+    border-color: #3B82F6;
+  }
+  .form-group input::placeholder {
+    color: #94A3B8;
+    font-weight: 400;
+  }
+  .form-group .help-text {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #64748B;
+    margin-top: 4px;
+  }
+  .form-group .error-text {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #EF4444;
+    margin-top: 4px;
+    display: none;
+  }
+  .form-group.error input {
+    border-color: #EF4444;
+  }
+  .form-group.error .error-text {
+    display: block;
+  }
+
+  /* Clear button row */
+  .clear-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 32px;
+  }
+  .btn-clear {
+    font-family: 'Nunito', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #64748B;
+    background: #FAFAFA;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .btn-clear:hover {
+    background: #F1F5F9;
+    border-color: #3B82F6;
+  }
+
+  /* Results row */
+  .results-row {
+    display: flex;
+    gap: 24px;
+  }
+  .result-card {
+    flex: 1;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .result-card.result-safe {
+    background: #EFF6FF;
+    border: 2px solid #93C5FD;
+  }
+  .result-label {
+    font-family: 'Nunito', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    color: #64748B;
+    margin-bottom: 4px;
+  }
+  .result-value {
+    font-family: 'Nunito', system-ui, sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: #1E293B;
+  }
+  .result-help {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #64748B;
+    margin-top: 8px;
+  }
+  .result-safe .result-label {
+    color: #3B82F6;
+  }
+  .result-safe .result-help {
+    color: #3B82F6;
+  }
+
+  /* State: hidden results */
+  .results-row.hidden { display: none; }
+
+  /* Formula block */
+  .formula-block {
+    background: #FAFAFA;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 48px;
+  }
+  .formula-block h2 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #1E293B;
+    margin-bottom: 12px;
+  }
+  .formula-block code {
+    display: block;
+    font-family: 'Nunito', system-ui, monospace;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1E293B;
+    background: #F1F5F9;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  .formula-block p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #64748B;
+  }
+
+  /* Warning collapsible */
+  .warning-details {
+    margin-bottom: 48px;
+    font-size: 14px;
+  }
+  .warning-details summary {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+    color: #94A3B8;
+    cursor: pointer;
+    padding: 8px 0;
+    user-select: none;
+  }
+  .warning-details[open] summary {
+    color: #64748B;
+    margin-bottom: 8px;
+  }
+  .warning-details .warning-body {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #64748B;
+    background: #FAFAFA;
+    padding: 12px 16px;
+    border-radius: 8px;
+  }
+
+  /* Example block */
+  .example-block {
+    margin-bottom: 48px;
+  }
+  .example-block h2 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #1E293B;
+    margin-bottom: 8px;
+  }
+  .example-block p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #64748B;
+  }
+  .example-block .example-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 12px;
+  }
+  .example-block .example-card {
+    flex: 1;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .example-block .example-card .ex-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748B;
+    letter-spacing: 0.02em;
+    margin-bottom: 4px;
+  }
+  .example-block .example-card .ex-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1E293B;
+  }
+  .example-block .example-card.ex-theory .ex-value {
+    color: #1E293B;
+  }
+  .example-block .example-card.ex-safe .ex-value {
+    color: #3B82F6;
+  }
+  .example-block .example-card.ex-safe {
+    background: #EFF6FF;
+    border-color: #93C5FD;
+  }
+
+  /* Responsive: mobile */
+  @media (max-width: 639px) {
+    body { padding: 24px 16px; }
+    .hero { margin-bottom: 32px; }
+    .card-main { padding: 24px; margin-bottom: 32px; }
+    .results-row { flex-direction: column; gap: 16px; }
+    .clear-row { justify-content: stretch; }
+    .btn-clear { width: 100%; }
+    .formula-block { margin-bottom: 32px; }
+    .example-block .example-row { flex-direction: column; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>Calculadora de tope de reintegro</h1>
+    <p>Ingresá el porcentaje de descuento y el tope de reintegro. Te mostramos el monto teórico y el máximo seguro de compra.</p>
+  </div>
+
+  <!-- Main card: INITIAL state (fields empty, no results) -->
+  <div class="card-main">
+    <div class="form-group">
+      <label for="porcentaje">Porcentaje de descuento</label>
+      <input type="text" id="porcentaje" placeholder="Ej: 15" inputmode="decimal">
+      <div class="help-text">Entre 0% y 100%, hasta dos decimales.</div>
+      <div class="error-text" id="error-porcentaje">El porcentaje debe ser mayor que 0 y menor o igual que 100.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="tope">Tope de reintegro ($)</label>
+      <input type="text" id="tope" placeholder="Ej: 1000" inputmode="decimal">
+      <div class="help-text">Valor positivo en pesos, hasta dos decimales.</div>
+      <div class="error-text" id="error-tope">El tope debe ser un valor positivo.</div>
+    </div>
+
+    <div class="clear-row">
+      <button class="btn-clear">Limpiar</button>
+    </div>
+
+    <!-- Results: hidden in initial state -->
+    <div class="results-row hidden" id="results">
+      <div class="result-card" id="result-theory">
+        <div class="result-label">Monto teórico de compra</div>
+        <div class="result-value" id="theory-value">$6.666,67</div>
+        <div class="result-help">Valor redondeado a dos decimales.</div>
+      </div>
+      <div class="result-card result-safe" id="result-safe">
+        <div class="result-label">Máximo seguro de compra</div>
+        <div class="result-value" id="safe-value">$6.666,66</div>
+        <div class="result-help">Usá este monto si querés evitar pasarte del tope.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formula block -->
+  <div class="formula-block">
+    <h2>Fórmula</h2>
+    <code>Monto necesario = Tope / (Descuento / 100)</code>
+    <p>El monto teórico se redondea a dos decimales. El máximo seguro se trunca a dos decimales para que el descuento calculado no supere el tope.</p>
+  </div>
+
+  <!-- Warning collapsible -->
+  <details class="warning-details">
+    <summary>Importante sobre promociones reales</summary>
+    <div class="warning-body">
+      El resultado es orientativo. "Tope de reintegro" se interpreta como el límite del descuento porcentual que ingresaste. Revisá siempre los términos y condiciones de la promoción real, ya que pueden aplicar reglas de redondeo o condiciones específicas por transacción.
+    </div>
+  </details>
+
+  <!-- Example block -->
+  <div class="example-block">
+    <h2>Ejemplo</h2>
+    <p>Con 15% de descuento y un tope de $1.000:</p>
+    <div class="example-row">
+      <div class="example-card ex-theory">
+        <div class="ex-label">Monto teórico</div>
+        <div class="ex-value">$6.666,67</div>
+      </div>
+      <div class="example-card ex-safe">
+        <div class="ex-label">Máximo seguro</div>
+        <div class="ex-value">$6.666,66</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
