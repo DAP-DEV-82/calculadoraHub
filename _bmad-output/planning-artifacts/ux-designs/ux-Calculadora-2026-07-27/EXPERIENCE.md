@@ -27,7 +27,7 @@ Orden vertical (de arriba hacia abajo):
 1. Hero: título + subtítulo breve.
 2. Tarjeta principal: campos de entrada + botón Limpiar + resultados lado a lado.
 3. Bloque de explicación: fórmula visible + advertencia colapsable.
-4. Ejemplo normativo: `15%` descuento, `$1000` tope → `$6666,67` teórico / `$6666,66` seguro.
+4. Ejemplo normativo: `15%` descuento, `$10000` tope → `$66.666,67` teórico / `$66.666,66` seguro.
 
 → Composition reference: `mockups/calculator-desktop.html`. Spine wins on conflict.
 
@@ -48,7 +48,7 @@ Microcopy en español neutro, claro y cotidiano. Sin voseo, sin tecnicismos inne
 
 Los placeholders de los campos:
 - Porcentaje: `Ej: 15`
-- Tope: `Ej: 1000`
+- Tope: `Ej: 10000`
 
 El botón "Limpiar" solo muestra esa palabra. Sin ícono.
 
@@ -61,7 +61,7 @@ Comportamiento. Las especificaciones visuales están en `DESIGN.md.Components`.
 | Campo de porcentaje | Tarjeta principal | Input numérico. Acepta coma o punto como separador decimal (`15,50` y `15.50` son equivalentes). No acepta separadores de miles, notación científica ni signos. Validación en cada cambio. Placeholder visible. |
 | Campo de tope | Tarjeta principal | Input numérico. Acepta coma o punto como separador decimal. No acepta separadores de miles, notación científica ni signos. Límite superior: `999999999,99` (o `999999999.99`). Validación en cada cambio. Placeholder visible. |
 | Botón Limpiar | Tarjeta principal, debajo de campos | Borra ambos campos, oculta resultados, resetea placeholders. No recarga la página. |
-| Resultado teórico | Tarjeta principal, lado izquierdo | Visible solo cuando ambos campos son válidos. Muestra etiqueta + valor numérico con redondeo convencional a dos decimales (hacia arriba si el tercer decimal ≥ 5). Formato: pesos argentinos con separador de miles (punto) y decimal (coma), ej: `$6.666,67`. |
+| Resultado teórico | Tarjeta principal, lado izquierdo | Visible solo cuando ambos campos son válidos. Muestra etiqueta + valor numérico con redondeo convencional a dos decimales (hacia arriba si el tercer decimal ≥ 5). Formato: pesos argentinos con separador de miles (punto) y decimal (coma), ej: `$66.666,67`. |
 | Resultado seguro | Tarjeta principal, lado derecho | Misma condición. Misma estructura. Se calcula truncando hacia abajo el valor exacto a dos decimales, no a partir del valor ya redondeado del monto teórico. Es la política prudente del producto y no simula reglas de cada promoción. Formato monetario idéntico. |
 | Bloque de fórmula | Debajo de tarjeta principal | Siempre visible. Formato código. Sin interacción. |
 | Advertencia colapsable | Debajo de la fórmula | Colapsada por defecto. Toggle de texto. Al expandir, muestra el texto de advertencia. Cumple FR-019: la advertencia está presente y accesible sin navegación adicional. |
@@ -108,8 +108,8 @@ Comportamiento. El contraste visual está definido en `DESIGN.md`.
 1. Lucía abre la página desde el celular.
 2. Ve el título, los campos vacíos y el ejemplo abajo.
 3. Escribe `15` en "Porcentaje de descuento".
-4. Escribe `1000` en "Tope de reintegro".
-5. **Clímax:** Al terminar de escribir el segundo valor, aparecen las dos tarjetas de resultado lado a lado (en desktop) o apiladas (en mobile): `$6666,67` (teórico) y `$6666,66` (seguro). La tarjeta segura tiene un borde azul y fondo sutil.
+4. Escribe `10000` en "Tope de reintegro".
+5. **Clímax:** Al terminar de escribir el segundo valor, aparecen las dos tarjetas de resultado lado a lado (en desktop) o apiladas (en mobile): `$66.666,67` (teórico) y `$66.666,66` (seguro). La tarjeta segura tiene un borde azul y fondo sutil.
 6. Lucía lee la etiqueta del resultado seguro: "Máximo seguro de compra — usa este valor para no pasarte del tope."
 7. Confirma con el ejemplo visible abajo.
 
@@ -126,7 +126,7 @@ Escenario de error: Lucía escribe `-5` como porcentaje → aparece "El porcenta
 
 ### Flow 3 — Limpiar y empezar de nuevo
 
-1. Lucía tiene resultados de `15%` y `1000`.
+1. Lucía tiene resultados de `15%` y `10000`.
 2. Quiere probar con otro descuento. Hace clic en "Limpiar".
 3. Ambos campos se vacían, los resultados desaparecen.
 4. Los placeholders vuelven a verse.

@@ -28,10 +28,10 @@ La página permitirá ingresar el porcentaje de descuento y el tope máximo de r
 - **Monto teórico de compra:** resultado matemático redondeado a dos decimales.
 - **Máximo seguro de compra:** resultado truncado a dos decimales para garantizar que el descuento calculado no supere el tope.
 
-Ejemplo con 15% de descuento y tope de `$1000`:
+Ejemplo con 15% de descuento y tope de `$10000`:
 
-- Monto teórico de compra: `$6666,67`.
-- Máximo seguro de compra: `$6666,66`.
+- Monto teórico de compra: `$66.666,67`.
+- Máximo seguro de compra: `$66.666,66`.
 
 La interfaz explicará brevemente que la diferencia se debe al redondeo del importe de compra a centavos. El máximo seguro será el resultado recomendado para quien quiera evitar superar el tope.
 

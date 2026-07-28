@@ -30,7 +30,7 @@ No está listo como contrato de implementación sin aclarar la semántica exacta
 
 **Ubicación:** secciones 5, FR-009/FR-010; sección 7, supuestos; sección 8, primer criterio de aceptación.
 
-El PRD define el monto teórico como redondeado a dos decimales y el máximo seguro como truncado, pero no define con precisión cómo se calcula el reintegro efectivo al validar que el importe “no supera” el tope. Para `15%` y `$6666,66`, el descuento exacto es `$999,999`; para `$6666,67`, es `$1000,0005`. Según se compare el valor exacto, se redondee el reintegro a centavos o se trunque, el importe seguro puede cambiar. La frase “bajo la precisión monetaria definida” no especifica esa operación.
+El PRD define el monto teórico como redondeado a dos decimales y el máximo seguro como truncado, pero no define con precisión cómo se calcula el reintegro efectivo al validar que el importe “no supera” el tope. Para `15%` y `$66.666,66`, el descuento exacto es `$9.999,999`; para `$66.666,67`, es `$10.000,0005`. Según se compare el valor exacto, se redondee el reintegro a centavos o se trunque, el importe seguro puede cambiar. La frase “bajo la precisión monetaria definida” no especifica esa operación.
 
 **Impacto:** dos implementaciones conformes con la redacción podrían devolver distintos resultados, y las pruebas no tendrían una oracle inequívoca.
 
@@ -152,7 +152,7 @@ El viaje usa “el usuario” como protagonista genérico. No bloquea este MVP d
 
 Fortalezas:
 
-- Incluye el caso principal exacto (`15%`, `$1000`).
+- Incluye el caso principal exacto (`15%`, `$10000`).
 - Incluye estados inválidos, recalculo sin recarga y formatos monetarios.
 - Incluye responsive y la exigencia de pruebas para clases importantes de cálculo.
 

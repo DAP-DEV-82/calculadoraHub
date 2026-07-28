@@ -36,7 +36,7 @@ El usuario es una persona que está evaluando una promoción con descuento porce
 
 1. El usuario abre la página.
 2. Ingresa el porcentaje de descuento, por ejemplo `15`.
-3. Ingresa el tope de reintegro, por ejemplo `1000`.
+3. Ingresa el tope de reintegro, por ejemplo `10000`.
 4. La página valida ambos valores y recalcula los resultados automáticamente.
 5. El usuario ve el monto teórico y el máximo seguro con formato de pesos argentinos.
 6. El usuario consulta la explicación breve y toma el máximo seguro como referencia prudente.
@@ -89,7 +89,7 @@ Monto teórico = Tope / (Porcentaje / 100)
 
 **FR-017.** El sistema debe explicar brevemente que el monto teórico puede contener fracciones de centavo y que el máximo seguro se trunca hacia abajo a dos decimales.
 
-**FR-018.** El sistema debe incluir un ejemplo visible o fácilmente consultable con `15%` de descuento y `$1000` de tope, cuyo resultado esperado sea `$6666,67` teórico y `$6666,66` seguro.
+**FR-018.** El sistema debe incluir un ejemplo visible o fácilmente consultable con `15%` de descuento y `$10000` de tope, cuyo resultado esperado sea `$66.666,67` teórico y `$66.666,66` seguro.
 
 **FR-019.** El sistema debe mostrar una advertencia visible indicando que el resultado es orientativo, que “tope de reintegro” se interpreta como el límite del descuento porcentual ingresado y que deben revisarse los términos y condiciones de la promoción real.
 
@@ -97,7 +97,7 @@ Monto teórico = Tope / (Porcentaje / 100)
 
 ## 6. Requisitos no funcionales
 
-**NFR-001. Usabilidad.** En una revisión manual, una persona que no haya usado antes la página debe poder ingresar `15` y `1000`, obtener ambos resultados y distinguir el máximo seguro en un máximo de `60 segundos`, sin navegación adicional ni ayuda del evaluador.
+**NFR-001. Usabilidad.** En una revisión manual, una persona que no haya usado antes la página debe poder ingresar `15` y `10000`, obtener ambos resultados y distinguir el máximo seguro en un máximo de `60 segundos`, sin navegación adicional ni ayuda del evaluador.
 
 **NFR-002. Responsive.** La interfaz debe mostrar toda la información sin desplazamiento horizontal en viewports de `320x568` y `1280x720`, como mínimo.
 
@@ -123,7 +123,7 @@ Monto teórico = Tope / (Porcentaje / 100)
 
 ## 8. Criterios de aceptación del MVP
 
-- **AC-001** valida FR-007, FR-008, FR-009 y FR-010: con `15%` y `$1000`, la página muestra `$6666,67` como monto teórico y `$6666,66` como máximo seguro; el valor seguro se obtiene del valor exacto antes de redondear la presentación.
+- **AC-001** valida FR-007, FR-008, FR-009 y FR-010: con `15%` y `$10000`, la página muestra `$66.666,67` como monto teórico y `$66.666,66` como máximo seguro; el valor seguro se obtiene del valor exacto antes de redondear la presentación.
 - **AC-002** valida FR-003, FR-004 y FR-005: se aceptan `15`, `15,50`, `15.50` y `1000,99`; se rechazan `0`, `-1`, `100,01`, `1000,999`, `1.000,50`, `1e3`, `1000000000` y valores mayores al límite.
 - **AC-003** valida FR-006 y FR-012: con un campo vacío o inválido, se muestra un error asociado al campo y no se presentan resultados como válidos.
 - **AC-004** valida FR-006a: `1000,50` y `1000.50` producen el mismo valor interno y se muestran con formato monetario argentino.
@@ -136,7 +136,7 @@ Monto teórico = Tope / (Porcentaje / 100)
 - **AC-011** valida NFR-006: la página funciona en Chrome 120+, Edge 120+, Firefox 120+ y Safari 17+; el informe registra las versiones de escritorio y móvil verificadas.
 - **AC-012** valida NFR-007: la suite unitaria ejecuta la unidad de validación y cálculo sin DOM y cubre el ejemplo principal, valores decimales, `0,01%`, `100%`, topes con centavos, fracciones de centavo y entradas inválidas.
 - **AC-013** valida FR-001 y FR-002: la página muestra etiquetas visibles y asociadas a los campos “Porcentaje de descuento” y “Tope de reintegro”.
-- **AC-014** valida NFR-001: en una prueba manual, una persona sin experiencia previa completa el caso `15` y `1000`, identifica el máximo seguro y termina en un máximo de `60 segundos` sin ayuda.
+- **AC-014** valida NFR-001: en una prueba manual, una persona sin experiencia previa completa el caso `15` y `10000`, identifica el máximo seguro y termina en un máximo de `60 segundos` sin ayuda.
 
 ## 9. Métricas de éxito
 

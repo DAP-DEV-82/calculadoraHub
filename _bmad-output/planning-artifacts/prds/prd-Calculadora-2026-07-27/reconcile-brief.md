@@ -29,7 +29,7 @@ El PRD cubre casi todo el alcance funcional del brief y conserva la decisión ce
 
 2. **Precisión monetaria insuficientemente definida.**
    - Ambos documentos mencionan centavos y truncamiento, pero no fijan si el descuento se compara con el tope antes o después de redondear a centavos, ni cómo evitar errores de punto flotante.
-   - Acción: especificar una política única: representar importes en centavos o decimal exacto, definir el redondeo del descuento y probar que el máximo seguro no excede el tope bajo esa política. Mantener el ejemplo `15%`/`$1000` como prueba normativa.
+   - Acción: especificar una política única: representar importes en centavos o decimal exacto, definir el redondeo del descuento y probar que el máximo seguro no excede el tope bajo esa política. Mantener el ejemplo `15%`/`$10000` como prueba normativa.
 
 3. **Advertencia sobre promociones reales no es verificable.**
    - El brief pide que la interfaz indique que el resultado es orientativo y que se revisen los términos y condiciones. El PRD lo deja como supuesto/riesgo, con “interfaz o documentación”, sin requisito funcional ni criterio de aceptación.

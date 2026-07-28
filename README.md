@@ -4,7 +4,7 @@ Calcula el importe de compra óptimo para aprovechar promociones con descuento p
 
 ## Problema
 
-Negocios de todo tipo —bancos, billeteras digitales, gasolineras, restaurantes, comercios— ofrecen promociones como *"15% de descuento con tope de $1.000"*. Para maximizar el beneficio sin exceder el tope, el usuario necesita saber cuánto gastar exactamente. Este cálculo manual es propenso a errores y confuso.
+Negocios de todo tipo —bancos, billeteras digitales, gasolineras, restaurantes, comercios— ofrecen promociones como *"15% de descuento con tope de $10.000"*. Para maximizar el beneficio sin exceder el tope, el usuario necesita saber cuánto gastar exactamente. Este cálculo manual es propenso a errores y confuso.
 
 ## Solución
 
@@ -22,7 +22,7 @@ Ingresá el porcentaje de descuento y el tope de reintegro. Los resultados se ac
 ## Características
 
 - Cálculo en tiempo real
-- Formato de pesos argentinos ($1.000,00)
+- Formato de pesos argentinos ($10.000,00)
 - Acepta coma y punto como separador decimal
 - Validación completa de entrada
 - Diseño responsive (320 px en adelante)

@@ -99,7 +99,7 @@
 - Conviene numerar los criterios de aceptación (`AC-001`, etc.) y los supuestos (`ASM-001`, etc.) si se exige trazabilidad. Actualmente los criterios y supuestos son viñetas sin identificador.
 - “Entrada De Datos”, “Presentación Y Explicación” y otros títulos deben corregirse a minúsculas ortográficas; no es un problema de numeración, pero sí de consistencia editorial.
 - Elegir una sola pareja: **monto** o **importe**; **tope de reintegro** o **tope máximo de reintegro**; **descuento** o **porcentaje de reintegro**. No alternarlas salvo que representen conceptos distintos y estén definidos.
-- Mantener un único formato para decimales en texto y ejemplos. Si la interfaz acepta coma decimal, indicar también cómo se representa el valor en los casos de prueba y si `$1000` se mostrará como `$1.000,00`.
+- Mantener un único formato para decimales en texto y ejemplos. Si la interfaz acepta coma decimal, indicar también cómo se representa el valor en los casos de prueba y si `$10000` se mostrará como `$10.000,00`.
 
 ## Orden de corrección recomendado
 
