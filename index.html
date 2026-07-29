@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Calculadora de Tope de Reintegro</title>
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <h1>Calculadora de tope de reintegro</h1>
+        <p>Ingresa el porcentaje de descuento y el tope de reintegro para conocer cuánto conviene gastar.</p>
+      </header>
+
+      <section class="calculator">
+        <div class="field">
+          <label for="discount">Porcentaje de descuento</label>
+          <input id="discount" type="text" inputmode="decimal" placeholder="Ej: 15" aria-describedby="discount-error" />
+          <p id="discount-error" class="field-message" hidden></p>
+        </div>
+
+        <div class="field">
+          <label for="cap">Tope de reintegro</label>
+          <input id="cap" type="text" inputmode="decimal" placeholder="Ej: 10000" aria-describedby="cap-error" />
+          <p id="cap-error" class="field-message" hidden></p>
+        </div>
+
+        <button id="clear" class="clear-button" type="button">Limpiar</button>
+
+        <div id="calculator-status" role="status" aria-live="polite" aria-atomic="true"></div>
+
+        <section id="results" class="results" hidden aria-label="Resultados del cálculo">
+          <article class="result-card">
+            <p class="result-label">Monto teórico de compra</p>
+            <p id="theoretical-result" class="result-value"></p>
+          </article>
+          <article class="result-card result-card-safe">
+            <p class="result-label">Máximo seguro de compra</p>
+            <p id="safe-result" class="result-value"></p>
+          </article>
+        </section>
+      </section>
+
+      <section class="formula" aria-labelledby="formula-title">
+        <h2 id="formula-title">Fórmula</h2>
+        <code>Monto teórico = Tope / (Porcentaje / 100)</code>
+        <p>El monto teórico se redondea a dos decimales. El máximo seguro se trunca a dos decimales para no superar el tope.</p>
+      </section>
+
+      <details id="disclaimer" class="disclaimer">
+        <summary>Resultado orientativo: el tope limita el descuento porcentual; revisa las condiciones reales de la promoción.</summary>
+        <p>Las promociones reales pueden aplicar reglas de redondeo o condiciones específicas por transacción.</p>
+      </details>
+
+      <section class="example" aria-labelledby="example-title">
+        <h2 id="example-title">Ejemplo</h2>
+        <p>Con 15% de descuento y un tope de $10.000:</p>
+        <div class="example-results">
+          <article class="result-card">
+            <p class="result-label">Monto teórico</p>
+            <p class="result-value">$66.666,67</p>
+          </article>
+          <article class="result-card result-card-safe">
+            <p class="result-label">Máximo seguro</p>
+            <p class="result-value">$66.666,66</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/app.js"></script>
+  </body>
+</html>

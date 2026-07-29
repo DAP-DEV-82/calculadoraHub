@@ -36,17 +36,17 @@ Ingresá el porcentaje de descuento y el tope de reintegro. Los resultados se ac
 | Lenguaje   | JavaScript (ES6+)     |
 | Maquetado  | HTML5                 |
 | Estilos    | CSS3                  |
-| Tipografía | Nunito (Google Fonts) |
+| Tipografía | Nunito local (WOFF2) |
 | Backend    | Ninguno (100% estático) |
 
 ## Uso
 
 1. Cloná el repositorio.
-2. Abrí `index.html` en tu navegador.
-3. Ingresá porcentaje y tope.
-4. Leé los resultados al instante.
+2. Ejecutá `npm install`.
+3. Ejecutá `npm run dev`.
+4. Abrí la URL local que muestra Vite.
 
-No requiere instalación de dependencias ni servidor.
+La aplicación usa Nunito local y no carga fuentes desde Google Fonts ni otros servicios externos.
 
 ## Estado del proyecto
 

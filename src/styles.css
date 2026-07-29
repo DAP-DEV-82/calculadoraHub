@@ -1,0 +1,261 @@
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400 800;
+  src: url('./assets/nunito-latin.woff2') format('woff2');
+}
+
+:root {
+  --primary: #3b82f6;
+  --primary-light: #93c5fd;
+  --primary-subtle: #eff6ff;
+  --surface-base: #fafafa;
+  --surface-raised: #ffffff;
+  --ink-primary: #1e293b;
+  --ink-secondary: #64748b;
+  --ink-muted: #94a3b8;
+  --error: #ef4444;
+  --border: #e2e8f0;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-full: 16px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  min-width: 0;
+  margin: 0;
+  background: var(--surface-base);
+  color: var(--ink-primary);
+  font-family: 'Nunito', system-ui, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.page {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-6);
+}
+
+.hero,
+.calculator,
+.formula,
+.disclaimer {
+  margin-bottom: var(--space-6);
+}
+
+.hero h1 {
+  margin: 0 0 var(--space-2, 8px);
+  font-size: 28px;
+  line-height: 1.25;
+}
+
+.hero p,
+.formula p,
+.disclaimer p,
+.example > p {
+  margin: 0;
+  color: var(--ink-secondary);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.calculator {
+  min-width: 0;
+  padding: var(--space-5);
+  border-radius: var(--radius-full);
+  background: var(--surface-raised);
+  box-shadow: 0 4px 24px rgb(0 0 0 / 6%);
+}
+
+.field {
+  min-width: 0;
+  margin-bottom: var(--space-5);
+}
+
+.field label,
+.result-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ink-primary);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.field input {
+  width: 100%;
+  min-height: 56px;
+  padding: var(--space-4);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-base);
+  color: var(--ink-primary);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.field-message {
+  margin: 4px 0 0;
+  color: var(--error);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.clear-button {
+  width: 100%;
+  min-height: 44px;
+  margin-bottom: var(--space-5);
+  padding: var(--space-3) var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-base);
+  color: var(--ink-secondary);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.results,
+.example-results {
+  display: grid;
+  min-width: 0;
+  gap: var(--space-4);
+}
+
+.result-card {
+  min-width: 0;
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+}
+
+.result-card-safe {
+  border-width: 2px;
+  border-color: var(--primary-light);
+  background: var(--primary-subtle);
+}
+
+.result-value {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: clamp(1.25rem, 7vw, 2rem);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.formula {
+  min-width: 0;
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  background: var(--surface-base);
+}
+
+.formula h2,
+.example h2 {
+  margin: 0 0 var(--space-3);
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.formula code {
+  display: block;
+  margin-bottom: var(--space-3);
+  padding: var(--space-3);
+  overflow-wrap: anywhere;
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  font-family: 'Nunito', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.disclaimer {
+  min-width: 0;
+}
+
+.disclaimer summary {
+  min-height: 44px;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  list-style: none;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.disclaimer summary::-webkit-details-marker {
+  display: none;
+}
+
+.disclaimer p {
+  margin-top: var(--space-2, 8px);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--surface-base);
+}
+
+.example {
+  min-width: 0;
+}
+
+.example-results {
+  margin-top: var(--space-3);
+}
+
+@media (min-width: 640px) {
+  .page {
+    padding-top: var(--space-7);
+  }
+
+  .hero,
+  .calculator,
+  .formula,
+  .disclaimer {
+    margin-bottom: var(--space-7);
+  }
+
+  .calculator {
+    padding: var(--space-6);
+  }
+
+  .clear-button {
+    display: block;
+    width: auto;
+    min-width: 100px;
+    margin-left: auto;
+  }
+
+  .results,
+  .example-results {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-5);
+  }
+}
