@@ -2,7 +2,7 @@
 title: "PRD - Calculadora de Tope de Reintegro"
 status: final
 created: 2026-07-27
-updated: 2026-07-27
+updated: 2026-07-28
 ---
 
 # PRD: Calculadora de Tope de Reintegro
@@ -99,7 +99,7 @@ Monto teórico = Tope / (Porcentaje / 100)
 
 **NFR-001. Usabilidad.** En una revisión manual, una persona que no haya usado antes la página debe poder ingresar `15` y `10000`, obtener ambos resultados y distinguir el máximo seguro en un máximo de `60 segundos`, sin navegación adicional ni ayuda del evaluador.
 
-**NFR-002. Responsive.** La interfaz debe mostrar toda la información sin desplazamiento horizontal en viewports de `320x568` y `1280x720`, como mínimo.
+**NFR-002. Responsive.** La interfaz debe implementarse mobile-first y ser plenamente funcional desde un viewport de `320px` de ancho. Debe mostrar toda la información sin desplazamiento horizontal y conservar legibilidad, controles operables y resultados equivalentes en mobile y desktop; se verificarán como mínimo los viewports de `320x568` y `1280x720`.
 
 **NFR-003. Accesibilidad básica.** Cada campo debe tener una etiqueta asociada, foco visible y mensajes de error comprensibles. Los resultados deben poder identificarse mediante texto, no solo por color.
 
@@ -129,7 +129,7 @@ Monto teórico = Tope / (Porcentaje / 100)
 - **AC-004** valida FR-006a: `1000,50` y `1000.50` producen el mismo valor interno y se muestran con formato monetario argentino.
 - **AC-005** valida FR-011: al cambiar cualquiera de los campos desde un estado válido, ambos resultados se actualizan sin recargar la página; al pasar a inválido, los resultados se ocultan.
 - **AC-006** valida FR-013, FR-014, FR-015, FR-016, FR-017, FR-018 y FR-019: la interfaz presenta ambos resultados con igual prominencia, muestra la fórmula, la explicación de las fracciones de centavo y el truncamiento, el ejemplo normativo y la advertencia orientativa.
-- **AC-007** valida FR-020 y NFR-002: en viewports de `320x568` y `1280x720` no hay desplazamiento horizontal, ambos resultados mantienen igual prominencia y ningún estado depende exclusivamente del color.
+- **AC-007** valida FR-020 y NFR-002: desde `320px` de ancho, y en los viewports de `320x568` y `1280x720` como mínimo, no hay desplazamiento horizontal; los controles son operables, ambos resultados mantienen igual prominencia y ningún estado depende exclusivamente del color.
 - **AC-008** valida NFR-003: cada campo tiene una etiqueta asociada, foco visible por teclado, error asociado al campo y resultados identificables mediante texto.
 - **AC-009** valida NFR-004: en una ejecución local, el percentil 95 del tiempo entre un cambio válido y la actualización de resultados es inferior o igual a `50 ms` en diez cambios consecutivos medidos con `performance.now()`.
 - **AC-010** valida NFR-005: una inspección de red y almacenamiento del navegador confirma que no se envían valores ni se escriben cookies, almacenamiento local o sesión de servidor; al recargar, los datos desaparecen.

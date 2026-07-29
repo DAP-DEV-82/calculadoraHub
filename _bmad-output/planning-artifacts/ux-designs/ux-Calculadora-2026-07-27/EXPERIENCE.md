@@ -2,7 +2,7 @@
 title: "EXPERIENCE - Calculadora de Tope de Reintegro"
 status: final
 created: 2026-07-27
-updated: 2026-07-27
+updated: 2026-07-28
 sources:
   - ../prds/prd-Calculadora-2026-07-27/prd.md
 ---
@@ -13,7 +13,7 @@ sources:
 
 Single-surface responsive web. Sin sistema UI externo — la identidad visual se define en `DESIGN.md`, que es la referencia de apariencia. Este spine describe el comportamiento, la arquitectura de información y la experiencia.
 
-Desktop-first con adaptación mobile (viewport < 640px). Una sola tarea por página: calcular el importe de compra máximo conveniente para una promoción con descuento porcentual y tope de reintegro. Sin persistencia, backend, cuentas ni integraciones.
+Web responsive mobile-first, plenamente funcional desde `320px`. Una sola tarea por página: calcular el importe de compra máximo conveniente para una promoción con descuento porcentual y tope de reintegro. Desktop mejora la composición desde `640px`; no define una experiencia distinta. Sin persistencia, backend, cuentas ni integraciones.
 
 ## Information Architecture
 
@@ -25,11 +25,11 @@ No hay navegación, rutas ni vistas secundarias. La página es un flujo vertical
 
 Orden vertical (de arriba hacia abajo):
 1. Hero: título + subtítulo breve.
-2. Tarjeta principal: campos de entrada + botón Limpiar + resultados lado a lado.
+2. Tarjeta principal: campos de entrada + botón Limpiar + resultados.
 3. Bloque de explicación: fórmula visible + advertencia colapsable.
 4. Ejemplo normativo: `15%` descuento, `$10000` tope → `$66.666,67` teórico / `$66.666,66` seguro.
 
-→ Composition reference: `mockups/calculator-desktop.html`. Spine wins on conflict.
+→ Referencias de composición: `mockups/calculator-mobile.html` (base mobile) y `mockups/calculator-desktop.html` (mejora desktop). Los spines ganan ante cualquier conflicto.
 
 ## Voice and Tone
 
@@ -61,10 +61,10 @@ Comportamiento. Las especificaciones visuales están en `DESIGN.md.Components`.
 | Campo de porcentaje | Tarjeta principal | Input numérico. Acepta coma o punto como separador decimal (`15,50` y `15.50` son equivalentes). No acepta separadores de miles, notación científica ni signos. Validación en cada cambio. Placeholder visible. |
 | Campo de tope | Tarjeta principal | Input numérico. Acepta coma o punto como separador decimal. No acepta separadores de miles, notación científica ni signos. Límite superior: `999999999,99` (o `999999999.99`). Validación en cada cambio. Placeholder visible. |
 | Botón Limpiar | Tarjeta principal, debajo de campos | Borra ambos campos, oculta resultados, resetea placeholders. No recarga la página. |
-| Resultado teórico | Tarjeta principal, lado izquierdo | Visible solo cuando ambos campos son válidos. Muestra etiqueta + valor numérico con redondeo convencional a dos decimales (hacia arriba si el tercer decimal ≥ 5). Formato: pesos argentinos con separador de miles (punto) y decimal (coma), ej: `$66.666,67`. |
-| Resultado seguro | Tarjeta principal, lado derecho | Misma condición. Misma estructura. Se calcula truncando hacia abajo el valor exacto a dos decimales, no a partir del valor ya redondeado del monto teórico. Es la política prudente del producto y no simula reglas de cada promoción. Formato monetario idéntico. |
+| Resultado teórico | Tarjeta principal; primero en el orden de lectura | Visible solo cuando ambos campos son válidos. Muestra etiqueta + valor numérico con redondeo convencional a dos decimales (hacia arriba si el tercer decimal ≥ 5). Formato: pesos argentinos con separador de miles (punto) y decimal (coma), ej: `$66.666,67`. En mobile se apila antes del seguro; desde `640px` ocupa la columna izquierda. |
+| Resultado seguro | Tarjeta principal; después del teórico | Misma condición. Misma estructura y peso visual. Se calcula truncando hacia abajo el valor exacto a dos decimales, no a partir del valor ya redondeado del monto teórico. Es la política prudente del producto y no simula reglas de cada promoción. En mobile se ubica debajo del teórico; desde `640px` ocupa la columna derecha. |
 | Bloque de fórmula | Debajo de tarjeta principal | Siempre visible. Formato código. Sin interacción. |
-| Advertencia colapsable | Debajo de la fórmula | Colapsada por defecto. Toggle de texto. Al expandir, muestra el texto de advertencia. Cumple FR-019: la advertencia está presente y accesible sin navegación adicional. |
+| Advertencia colapsable | Debajo de la fórmula | `<details id="disclaimer">` colapsado por defecto con `<summary>` de texto, navegable por teclado y sin marcador o ícono. El summary visible comunica que el resultado es orientativo, que el tope limita el descuento porcentual y que deben revisarse las condiciones reales; al expandir, se muestra el detalle. Cumple FR-019 sin navegación adicional. |
 | Ejemplo normativo | Debajo de advertencia | Texto estático. Sin interacción. |
 
 ## State Patterns
@@ -97,7 +97,7 @@ Comportamiento. El contraste visual está definido en `DESIGN.md`.
 - El foco de teclado es visible en todos los elementos interactivos (borde `primary` de 2px).
 - Los dos resultados se identifican por texto (etiqueta), no solo por color de fondo o borde.
 - El botón Limpiar tiene texto descriptivo (`Limpiar`).
-- La advertencia colapsable es un `<button>` o `<summary>` navegable por teclado.
+- La advertencia colapsable usa `<details id="disclaimer">` y un `<summary>` navegable por teclado, con los avisos esenciales visibles aun cuando está cerrada.
 - Sin movimiento, sin parpadeo, sin contenido que cambie sin interacción del usuario.
 - Sin bloqueo de zoom (`user-scalable=no` no debe usarse).
 
@@ -134,21 +134,21 @@ Escenario de error: Lucía escribe `-5` como porcentaje → aparece "El porcenta
 
 ## Responsive & Platform
 
-Desktop-first. La referencia de composición es `mockups/calculator-desktop.html`.
+Mobile-first. La referencia base es `mockups/calculator-mobile.html`; `mockups/calculator-desktop.html` ilustra la mejora desde `640px`.
 
-**Desktop (≥ 640px):**
-- Ancho máximo de `640px`, centrado.
-- Resultados lado a lado (dos tarjetas del mismo ancho).
-- Botón Limpiar a la derecha debajo de los campos.
+**Base mobile (`320px` a `639px`):**
+- La página declara el viewport del dispositivo y usa `16px` de espacio lateral; el contenido mide el ancho disponible, sin ancho fijo ni desplazamiento horizontal.
+- Hero, tarjeta, fórmula, advertencia y ejemplo ocupan todo el ancho disponible. Los campos ocupan el ancho de la tarjeta y los controles tienen un objetivo táctil mínimo de `44px`.
+- Resultados y tarjetas del ejemplo se apilan en orden de lectura: teórico y luego seguro. Mantienen mismo tamaño, jerarquía y texto explicativo; el borde y fondo azul del seguro complementan, no sustituyen, su etiqueta.
+- "Limpiar" ocupa el ancho disponible debajo de los campos. Fórmula, advertencia y ejemplo siguen siendo consultables sin navegación adicional.
+- Importes largos, errores y texto se envuelven o reducen dentro de su contenedor; nunca se recortan ni se esconden con overflow horizontal.
 
-**Mobile (< 640px):**
-- Márgenes laterales mínimos de `16px`.
-- Resultados apilados verticalmente (el seguro debajo del teórico).
-- Botón Limpiar a ancho completo o alineado a la derecha según espacio disponible.
-- El bloque de fórmula y advertencia ocupan todo el ancho disponible.
-- Sin desplazamiento horizontal en `320x568`.
+**Mejora desktop (`≥ 640px`):**
+- Columna centrada con ancho máximo de `640px` y mayor separación entre bloques.
+- Resultados y tarjetas del ejemplo pasan a dos columnas de igual ancho, conservando su orden DOM y visual: teórico a la izquierda, seguro a la derecha.
+- "Limpiar" se alinea a la derecha debajo de los campos.
 
-Viewports verificados: `320x568` y `1280x720`. En ambos, sin desplazamiento horizontal y sin pérdida de información.
+**Verificación:** comprobar estados inicial, válido, inválido, advertencia expandida y ejemplo en `320x568`, `375x667`, `768x1024` y `1280x720`; también en `568x320` y con zoom o escala de texto al `200%`. En cada caso no hay desplazamiento horizontal, pérdida de información ni diferencia funcional entre touch, mouse y teclado.
 
 No hay variantes por plataforma (iOS/Android/Web). El comportamiento es idéntico en todos los navegadores compatibles (Chrome 120+, Edge 120+, Firefox 120+, Safari 17+).
 

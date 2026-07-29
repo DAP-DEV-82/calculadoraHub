@@ -2,7 +2,7 @@
 title: "DESIGN - Calculadora de Tope de Reintegro"
 status: final
 created: 2026-07-27
-updated: 2026-07-27
+updated: 2026-07-28
 sources:
   - ../prds/prd-Calculadora-2026-07-27/prd.md
 colors:
@@ -87,6 +87,7 @@ components:
     radius: '{rounded.full}'
     shadow: '0 4px 24px rgba(0, 0, 0, 0.06)'
     padding: '{spacing.6}'
+    padding-mobile: '{spacing.5}'
   card-result:
     background: '{colors.surface-raised}'
     radius: '{rounded.md}'
@@ -103,12 +104,14 @@ components:
     border: 2px solid '{colors.border}'
     border-focus: 2px solid '{colors.primary}'
     padding: '{spacing.4}'
+    min-height: 56px
   button-secondary:
     background: '{colors.surface-base}'
     radius: '{rounded.md}'
     border: 1px solid '{colors.border}'
     foreground: '{colors.ink-secondary}'
     padding: '{spacing.3} {spacing.5}'
+    min-height: 44px
 ---
 
 ## Brand & Style
@@ -156,11 +159,13 @@ No usar cursiva, mayúsculas sostenidas ni pesos por debajo de 400. El espaciado
 
 Escala: 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 px.
 
-Desktop: una columna centrada con ancho máximo de `640px`. La tarjeta principal ocupa ese ancho. Los resultados van lado a lado dentro de la tarjeta. El hero, la tarjeta y el bloque de explicación se espacian con `spacing.7` (48px) entre sí.
+Mobile-first: la composición base funciona desde `320px` de ancho. La página usa `padding-inline: 16px`; su contenido tiene `width: 100%` y nunca excede `640px`. No se oculta el desborde horizontal: cada bloque debe acomodar texto, importes, errores y controles dentro del ancho disponible.
 
-Mobile (viewport < 640px): sin márgenes laterales menores a `16px`. Resultados se apilan verticalmente. El espaciado entre bloques se reduce a `spacing.6` (32px).
+En mobile (`320px` a `639px`), el hero, tarjeta, fórmula, advertencia y ejemplo ocupan el ancho disponible. El espaciado entre bloques es `spacing.6` (32px); `card-main` usa `padding-mobile` (`spacing.5`, 24px). Los resultados y las tarjetas del ejemplo se apilan en el orden teórico y luego seguro. El botón "Limpiar" ocupa todo el ancho disponible para ofrecer un objetivo táctil claro.
 
-Los campos de entrada tienen un ancho completo dentro de su contenedor. El botón "Limpiar" se alinea a la derecha debajo de los campos.
+Desde `640px`, la columna permanece centrada con ancho máximo de `640px`. Hero, tarjeta y bloque de explicación se separan con `spacing.7` (48px); `card-main` usa `padding` (`spacing.6`, 32px). Resultados y tarjetas del ejemplo pasan a dos columnas iguales. El botón "Limpiar" vuelve a alinearse a la derecha debajo de los campos.
+
+Los campos tienen ancho completo y altura mínima de `56px`. Todos los controles interactivos tienen un área mínima de `44px`. Los valores monetarios conservan igualdad de prominencia entre tarjetas, pueden reducirse de forma fluida hasta `20px` y deben cortar o envolver dentro de su tarjeta antes de generar desborde.
 
 ## Elevation & Depth
 
@@ -176,13 +181,13 @@ No hay bordes completamente cuadrados, formas de píldora ni círculos como cont
 
 ## Components
 
-- **Tarjeta principal** — `card-main`. Contiene campos, resultados, botón Limpiar. Sombra suave, fondo blanco, padding generoso.
+- **Tarjeta principal** — `card-main`. Contiene campos, resultados, botón Limpiar. Sombra suave, fondo blanco; usa `{components.card-main.padding-mobile}` en mobile y `{components.card-main.padding}` desde `640px`.
 - **Campo de entrada** — `input-field`. Fondo `surface-base`, borde de 2px, cambia a `primary` en focus. Placeholder en `ink-secondary`. Error: borde `error` + mensaje debajo en `body-sm` con color `error`.
 - **Tarjeta de resultado teórico** — `card-result`. Fondo blanco con borde `border`. Muestra etiqueta y valor grande. Sin sombra.
 - **Tarjeta de resultado seguro** — `card-result-safe`. Fondo `primary-subtle` con borde `primary-light` de 2px. Misma estructura que la teórica. Es visualmente distinguible pero no dominante.
-- **Botón Limpiar** — `button-secondary`. Fondo `surface-base` con borde `border`. Sin sombra. En hover, fondo ligeramente más oscuro o borde `primary`.
+- **Botón Limpiar** — `button-secondary`. Fondo `surface-base` con borde `border`, radio `{rounded.sm}` y altura mínima de `44px`. En mobile ocupa el ancho disponible; desde `640px` se alinea a la derecha. Sin sombra. En hover, fondo ligeramente más oscuro o borde `primary`.
 - **Bloque de fórmula** — Texto en `body` con fondo `surface-base` y `rounded.md`. Muestra la fórmula en formato código.
-- **Advertencia colapsable** — Texto en `meta` dentro de un contenedor con `rounded.sm`. Colapsable mediante un toggle de texto (no ícono). Expandido por defecto no; el usuario abre si quiere.
+- **Advertencia colapsable** — `details` con `summary` de texto en `meta`, dentro de un contenedor con `rounded.sm`. El summary visible comunica que el resultado es orientativo, que el tope limita el descuento porcentual y que deben revisarse las condiciones reales; el detalle amplía esa advertencia. Está colapsada por defecto y oculta el marcador nativo: el toggle no usa ícono.
 
 ## Do's and Don'ts
 
@@ -195,3 +200,5 @@ No hay bordes completamente cuadrados, formas de píldora ni círculos como cont
 | Botón Limpiar discreto, secundario | Botón grande o llamativo que compita con los resultados |
 | Advertencia colapsable para mantener limpieza visual | Advertencia oculta sin indicación de que existe |
 | Una columna centrada, ancho máximo fijo | Diseño que se estire a full-width en desktop |
+| Empezar por la composición de 320px y ampliar desde 640px | Reducir a la fuerza una fila desktop para que entre en mobile |
+| Apilar tarjetas cuando falta ancho, sin disminuir su jerarquía | Recortar importes, errores o controles para evitar el scroll |
