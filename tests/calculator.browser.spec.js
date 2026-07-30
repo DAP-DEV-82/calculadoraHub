@@ -93,3 +93,41 @@ test('defers incomplete feedback until blur and clears the full state', async ({
   await expect(page.locator('#results')).toBeHidden()
   await expect(page.locator('#calculator-status')).toBeEmpty()
 })
+
+for (const viewport of [
+  { name: 'mobile', width: 320, height: 568 },
+  { name: 'desktop', width: 1280, height: 720 },
+]) {
+  test(`presents safe results and reference content without overflow on ${viewport.name}`, async ({ page }) => {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height })
+    await page.goto('/')
+    await page.getByLabel('Porcentaje de descuento').fill('0,01')
+    await page.getByLabel('Tope de reintegro').fill('999999999,99')
+
+    await expect(page.locator('#results')).toBeVisible()
+    await expect(page.locator('.result-card')).toHaveCount(4)
+    await expect(page.locator('#safe-result')).toHaveText('$9.999.999.999.900,00')
+    await expect(page.getByText('Usá este valor para no superar el tope.')).toBeVisible()
+    await expect(page.getByText('El monto teórico puede incluir fracciones de centavo.')).toBeVisible()
+    await expect(page.locator('#disclaimer summary')).toContainText('Resultado orientativo')
+
+    const columnCount = await page.locator('#results').evaluate((element) => (
+      getComputedStyle(element).gridTemplateColumns.trim().split(/\s+/).length
+    ))
+    expect(columnCount).toBe(viewport.width < 640 ? 1 : 2)
+
+    await page.evaluate(() => { document.documentElement.style.fontSize = '200%' })
+    await expect(page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).resolves.toBe(true)
+  })
+}
+
+test('opens the textual disclaimer with the keyboard', async ({ page }) => {
+  await page.goto('/')
+
+  const summary = page.locator('#disclaimer summary')
+  await summary.focus()
+  await page.keyboard.press('Space')
+
+  await expect(page.locator('#disclaimer')).toHaveAttribute('open', '')
+  await expect(page.locator('#disclaimer')).toContainText('Las promociones reales pueden aplicar reglas de redondeo')
+})

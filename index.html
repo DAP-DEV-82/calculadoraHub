@@ -33,10 +33,12 @@
           <article class="result-card">
             <p class="result-label">Monto teórico de compra</p>
             <p id="theoretical-result" class="result-value"></p>
+            <p class="result-description">Valor exacto redondeado a dos decimales.</p>
           </article>
           <article class="result-card result-card-safe">
             <p class="result-label">Máximo seguro de compra</p>
             <p id="safe-result" class="result-value"></p>
+            <p class="result-description">Usá este valor para no superar el tope.</p>
           </article>
         </section>
       </section>
@@ -44,7 +46,7 @@
       <section class="formula" aria-labelledby="formula-title">
         <h2 id="formula-title">Fórmula</h2>
         <code>Monto teórico = Tope / (Porcentaje / 100)</code>
-        <p>El monto teórico se redondea a dos decimales. El máximo seguro se trunca a dos decimales para no superar el tope.</p>
+        <p>El monto teórico puede incluir fracciones de centavo. Se redondea a dos decimales; el máximo seguro se trunca de forma conservadora para no superar el tope.</p>
       </section>
 
       <details id="disclaimer" class="disclaimer">
