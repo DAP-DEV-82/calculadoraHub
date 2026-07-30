@@ -1,6 +1,8 @@
 # Contrato de Despliegue
 
-El hosting específico queda pendiente de selección. Debe publicar el contenido de `dist/` por HTTPS, tanto en raíz como en una subruta estática.
+GitHub Pages publica el contenido de `dist/` por HTTPS tras un push a `main`. El build conserva rutas relativas (`base: './'`), por lo que funciona en la URL de Pages del repositorio y en una subruta estática como `/calculadora/`.
+
+La URL de GitHub Pages para este repositorio es `https://dap-dev-82.github.io/calculadoraHub/`; GitHub Pages fija la subruta al nombre del repositorio, no a `/calculadora/`.
 
 ## Headers
 
@@ -12,10 +14,12 @@ El hosting específico queda pendiente de selección. Debe publicar el contenido
 | Assets con hash bajo `assets/` | `Cache-Control: public, max-age=31536000, immutable` |
 | Tipos | `X-Content-Type-Options: nosniff` |
 
+GitHub Pages administra TLS y sus propios headers/cache. Si se requiere controlar todos los headers de esta tabla, usar un hosting estático con configuración de CDN o proxy delante de Pages.
+
 ## Operación
 
 - No registrar URL, body, query string ni valores de formulario enviados por visitantes.
-- Antes de publicar, ejecutar `npm ci`, `npm test`, `npm run test:browser` y `npm run build`.
+- El workflow `.github/workflows/deploy-pages.yml` ejecuta `npm ci`, instala Chromium, corre `npm test`, `npm run test:browser`, construye y publica el artefacto de Pages.
 - Realizar smoke test de carga y cálculo `15` / `10000` contra la URL HTTPS publicada.
 - Confirmar que `dist/version.json` contiene `commit`, `dirty` y `sourceDigest`.
 

@@ -15,7 +15,9 @@ Una aplicación web estática, responsive y sin backend que calcula al instante:
 
 ## Demo
 
-(por implementar)
+Al publicar la rama `main` en GitHub, la demo queda disponible en:
+
+<https://dap-dev-82.github.io/calculadoraHub/>
 
 Ingresá el porcentaje de descuento y el tope de reintegro. Los resultados se actualizan en tiempo real, sin botones ni recargas.
 
@@ -50,7 +52,15 @@ La aplicación usa Nunito local y no carga fuentes desde Google Fonts ni otros s
 
 ## Estado del proyecto
 
-**Planificación completa.** PRD y diseño UX finalizados. Pendiente de implementación.
+La calculadora está implementada. GitHub Actions valida el build, las pruebas unitarias y las pruebas browser antes de desplegar `dist/` en GitHub Pages al actualizar `main`.
+
+## Despliegue
+
+1. En GitHub, abrí **Settings → Pages** del repositorio.
+2. En **Build and deployment**, seleccioná **GitHub Actions** como fuente.
+3. Hacé push o merge a `main`, o ejecutá manualmente el workflow **Deploy GitHub Pages** desde la pestaña Actions.
+
+El build conserva `base: './'` en Vite. Así los recursos se resuelven de forma relativa y funcionan en la URL de Pages del repositorio y en la subruta estática `/calculadora/` usada por las pruebas.
 
 ## Licencia
 
